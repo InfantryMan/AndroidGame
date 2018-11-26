@@ -1,5 +1,5 @@
 package com.game.rk6cooperation.androidgame;
 
 public class Config {
-    public static final String BASE_URL = "http://192.168.0.11:3220";
+    public static final String BASE_URL = "http://172.16.95.143:3220";
 }

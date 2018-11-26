@@ -2,7 +2,9 @@ package com.game.rk6cooperation.androidgame.Network;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -18,4 +20,9 @@ interface RetrofitApi {
 
     @GET("scoreboard/{id}")
     Call<ResponseBody> getUser(@Path("id") Integer id);
+
+    @POST("/login/")
+    Call<ResponseBody> login(@Body AuthUserRequest authUserRequest);
+
+
 }
