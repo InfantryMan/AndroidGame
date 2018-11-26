@@ -15,14 +15,17 @@ interface RetrofitApi {
     @GET("scoreboard/")
     Call<ResponseBody> getUsersList(@Query("page") Integer page, @Query("on_page") Integer on_page);
 
-    @GET("/")
-    Call<ResponseBody> test();
+    @GET("/login/")
+    Call<ResponseBody> checkAuth();
 
     @GET("scoreboard/{id}")
     Call<ResponseBody> getUser(@Path("id") Integer id);
 
     @POST("/login/")
     Call<ResponseBody> login(@Body AuthUserRequest authUserRequest);
+
+    @POST("/register/")
+    Call<ResponseBody> register(@Body RegUserRequest regUserRequest);
 
 
 }

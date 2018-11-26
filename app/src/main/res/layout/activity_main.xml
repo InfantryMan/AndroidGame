@@ -45,6 +45,12 @@
             android:gravity="center"
             android:text="@string/register" />
 
+        <TextView
+            android:id="@+id/btn_logout"
+            style="@style/MenuFont"
+            android:gravity="center"
+            android:text="@string/logout" />
+
     </LinearLayout>
 
 </FrameLayout>

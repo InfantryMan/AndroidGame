@@ -2,13 +2,19 @@ package com.game.rk6cooperation.androidgame;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.game.rk6cooperation.androidgame.Network.Api;
 import com.game.rk6cooperation.androidgame.Network.AuthUserResponse;
 import com.game.rk6cooperation.androidgame.Network.ListenerHandler;
-import com.game.rk6cooperation.androidgame.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -17,28 +23,50 @@ public class LoginActivity extends AppCompatActivity {
     private Api.OnAuthorizeListener authListener = new Api.OnAuthorizeListener() {
         @Override
         public void onSuccess(final AuthUserResponse user) {
-//            setUsers(users);
-//            stopProgress();
             Log.d("MYTAG", "SUCCESS" + user.getStatus() + " " + user.getUser().getNickname());
+            finish();
         }
 
         @Override
         public void onError(final Exception error) {
-//            resetUsers();
-//            stopProgress();
             Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d("MYTAG", "ERROR" + error.getMessage());
         }
     };
 
 
+    @BindView(R.id.login)
+    EditText loginField;
+
+    @BindView(R.id.password)
+    EditText passwordField;
+
+    @BindView(R.id.btn_submit)
+    Button submitBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        authHandler = Api.getInstance().authorize("Timur", "1234", authListener);
+        ButterKnife.bind(this);
 
+    }
+
+    @OnClick(R.id.btn_submit)
+    void onClickSubmit() {
+        String login = loginField.getText().toString();
+        String password = passwordField.getText().toString();
+
+        Boolean isFieldsEmpty;
+        isFieldsEmpty = (TextUtils.isEmpty(login) || TextUtils.isEmpty(password));
+
+        if(isFieldsEmpty) {
+            Toast.makeText(LoginActivity.this, "Empty fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        authHandler = Api.getInstance().authorize(login, password, authListener);
     }
 
 }

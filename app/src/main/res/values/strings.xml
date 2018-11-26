@@ -9,6 +9,7 @@
     <string name="repeat_password">Repeat password</string>
     <string name="log_in_menu">Log in</string>
     <string name="register">Register</string>
+    <string name="logout">Log out</string>
     <string name="submit">Submit</string>
 
 

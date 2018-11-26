@@ -11,7 +11,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -111,6 +110,65 @@ public class Api {
         return handler;
     }
 
+    public ListenerHandler<OnRegisterListener> register(final String nickname, final String password, final OnRegisterListener listener) {
+        final ListenerHandler<OnRegisterListener> handler = new ListenerHandler<>(listener);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    RegUserRequest authUserRequest = new RegUserRequest(nickname, password);
+                    final Response<ResponseBody> response = retrofitApi.register(authUserRequest).execute();
+
+                    try (final ResponseBody responseBody = response.body()) {
+                        if (response.code() != 200) {
+                            throw new IOException("HTTP code " + response.code());
+                        }
+                        if (responseBody == null) {
+                            throw new IOException("Cannot get body");
+                        }
+                        final String body = responseBody.string();
+                        invokeSuccessReg(handler, parseRegUser(body));
+                    }
+
+                } catch (IOException e) {
+                    invokeErrorReg(handler, e);
+                }
+            }
+        });
+        return handler;
+    }
+
+    public ListenerHandler<OnCheckAuthListener> checkAuth(final OnCheckAuthListener listener) {
+        final ListenerHandler<OnCheckAuthListener> handler = new ListenerHandler<>(listener);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final Response<ResponseBody> response = retrofitApi.checkAuth().execute();
+
+                    try (final ResponseBody responseBody = response.body()) {
+                        if (response.code() == 401) {
+                            invokeSessionInvalidCheckAuth(handler);
+                        }
+                        if (response.code() != 200) {
+                            throw new IOException("HTTP code " + response.code());
+                        }
+                        if (responseBody == null) {
+                            throw new IOException("Cannot get body");
+                        }
+                        invokeSuccessCheckAuth(handler);
+                    }
+
+                } catch (IOException e) {
+                    invokeErrorCheckAuth(handler, e);
+                }
+            }
+        });
+        return handler;
+    }
+
+
+
     public ListenerHandler<OnUsersListGetListener> getUsersList(final Integer page, final Integer on_page, final OnUsersListGetListener listener) {
         final ListenerHandler<OnUsersListGetListener> handler = new ListenerHandler<>(listener);
         executor.execute(new Runnable() {
@@ -127,7 +185,7 @@ public class Api {
                             throw new IOException("Cannot get body");
                         }
                         final String body = responseBody.string();
-                        invokeSuccessScoreboard(handler, parseUsers(body));
+                        invokeSuccessScoreboard(handler, parseScoreboardUsers(body));
                     }
 
                 } catch (IOException e) {
@@ -139,7 +197,7 @@ public class Api {
     }
 
 
-    private ScoreboardUsers parseUsers(final String body) throws IOException {
+    private ScoreboardUsers parseScoreboardUsers(final String body) throws IOException {
         try {
             return GSON.fromJson(body, ScoreboardUsers.class);
         } catch (JsonSyntaxException e) {
@@ -150,6 +208,14 @@ public class Api {
     private AuthUserResponse parseAuthUser(final String body) throws IOException {
         try {
             return GSON.fromJson(body, AuthUserResponse.class);
+        } catch (JsonSyntaxException e) {
+            throw new IOException(e);
+        }
+    }
+
+    private RegUserResponse parseRegUser(final String body) throws IOException {
+        try {
+            return GSON.fromJson(body, RegUserResponse.class);
         } catch (JsonSyntaxException e) {
             throw new IOException(e);
         }
@@ -216,6 +282,83 @@ public class Api {
         });
     }
 
+    private void invokeSuccessReg(final ListenerHandler<OnRegisterListener> handler, final RegUserResponse user) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnRegisterListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onSuccess(user);
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+    private void invokeErrorReg(final ListenerHandler<OnRegisterListener> handler, final Exception error) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnRegisterListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onError(error);
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+
+    private void invokeSuccessCheckAuth(final ListenerHandler<OnCheckAuthListener> handler) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnCheckAuthListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onSuccess();
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+    private void invokeErrorCheckAuth(final ListenerHandler<OnCheckAuthListener> handler, final Exception error) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnCheckAuthListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onError(error);
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+    private void invokeSessionInvalidCheckAuth(final ListenerHandler<OnCheckAuthListener> handler) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnCheckAuthListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onSessionInvalid();
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+
     public interface OnUsersListGetListener {
         void onSuccess(final ScoreboardUsers users);
 
@@ -225,6 +368,18 @@ public class Api {
     public interface OnAuthorizeListener {
         void onSuccess(final AuthUserResponse user);
 
+        void onError(final Exception error);
+    }
+
+    public interface OnRegisterListener {
+        void onSuccess(final RegUserResponse user);
+
+        void onError(final Exception error);
+    }
+
+    public interface OnCheckAuthListener {
+        void onSuccess();
+        void onSessionInvalid();
         void onError(final Exception error);
     }
 }

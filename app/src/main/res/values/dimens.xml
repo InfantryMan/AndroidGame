@@ -1,7 +1,7 @@
 <resources>
     <!--Main Menu-->
     <dimen name="menu_buttons_text_size">40sp</dimen>
-    <dimen name="main_menu_margin">160dp</dimen>
+    <dimen name="main_menu_margin">120dp</dimen>
 
     <!--Scoreboard-->
     <dimen name="scoreboard_margin">30dp</dimen>

@@ -26,4 +26,18 @@ public class CookieHolder {
             cookieHolder.cookie = cookie;
         }
     }
+
+    public void deleteCookie() {
+        if (cookieHolder != null) {
+            cookieHolder.cookie = null;
+        }
+    }
+
+    public Boolean isCookieExist() {
+        if (cookieHolder != null) {
+            if(cookie != null)
+                return true;
+        }
+        return false;
+    }
 }
