@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.game.rk6cooperation.androidgame.Config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -17,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class Api {
-    public static final String BASE_URL = "http://192.168.0.111:3000";
+    public static final String BASE_URL = Config.BASE_URL;
     private static final Api INSTANCE = new Api();
     private static final Gson GSON = new GsonBuilder()
             .create();

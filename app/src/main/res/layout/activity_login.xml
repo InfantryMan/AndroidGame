@@ -15,29 +15,21 @@
         android:layout_marginBottom="@dimen/main_menu_margin"
         android:padding="@dimen/content_padding">
 
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_launcher_background"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="qs" />
+
         <TextView
             android:id="@+id/btn_start_game"
             style="@style/MenuFont"
             android:gravity="center"
-            android:text="@string/menu_start_game" />
+            android:text="@string/login_btn" />
 
-        <TextView
-            android:id="@+id/btn_scoreboard"
-            style="@style/MenuFont"
-            android:gravity="center"
-            android:text="@string/menu_scoreboard" />
-
-        <TextView
-            android:id="@+id/btn_settings"
-            style="@style/MenuFont"
-            android:gravity="center"
-            android:text="@string/menu_settings" />
-
-        <TextView
-            android:id="@+id/btn_login_menu"
-            style="@style/MenuFont"
-            android:gravity="center"
-            android:text="@string/log_in_menu" />
 
     </LinearLayout>
 
