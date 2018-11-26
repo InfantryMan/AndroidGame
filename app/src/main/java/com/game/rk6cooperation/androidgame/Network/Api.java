@@ -39,13 +39,13 @@ public class Api {
         return INSTANCE;
     }
 
-    public ListenerHandler<OnUsersListGetListener> getUsersList(final Integer id, final OnUsersListGetListener listener) {
+    public ListenerHandler<OnUsersListGetListener> getUsersList(final Integer page, final Integer on_page, final OnUsersListGetListener listener) {
         final ListenerHandler<OnUsersListGetListener> handler = new ListenerHandler<>(listener);
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    final Response<ResponseBody> response = retrofitApi.getUsersList(1, 1).execute();
+                    final Response<ResponseBody> response = retrofitApi.getUsersList(page, on_page).execute();
 
                     try (final ResponseBody responseBody = response.body()) {
                         if (response.code() != 200) {
@@ -57,6 +57,7 @@ public class Api {
                         final String body = responseBody.string();
                         invokeSuccess(handler, parseUsers(body));
                     }
+
                 } catch (IOException e) {
                     invokeError(handler, e);
                 }

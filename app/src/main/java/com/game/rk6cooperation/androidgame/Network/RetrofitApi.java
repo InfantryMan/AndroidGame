@@ -11,7 +11,7 @@ import retrofit2.http.Query;
  */
 interface RetrofitApi {
     @GET("scoreboard/")
-    Call<ResponseBody> getUsersList(@Query("id") Integer id, @Query("page") Integer page);
+    Call<ResponseBody> getUsersList(@Query("page") Integer page, @Query("on_page") Integer on_page);
 
     @GET("/")
     Call<ResponseBody> test();

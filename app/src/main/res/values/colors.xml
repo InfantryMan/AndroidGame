@@ -4,8 +4,12 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="button">#437DD4</color>
-    <color name="application_background_begin">#A66900</color>
-    <color name="application_background_end">#FFB840</color>
+    <!--<color name="button">#EDEEF0</color>-->
+    <!--<color name="application_background_begin">#1E1E1E</color>-->
+    <!--<color name="application_background_end">#3B3B3B</color>-->
+
+    <color name="button">#F8F4FF</color>-->
+    <color name="application_background_begin">#2A3132</color>
+    <color name="application_background_end">#2A3132</color>
 
 </resources>

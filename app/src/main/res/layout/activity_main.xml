@@ -6,26 +6,31 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+
+
         android:layout_gravity="center"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/main_menu_margin"
+        android:layout_marginBottom="@dimen/main_menu_margin"
         android:padding="@dimen/content_padding">
 
         <TextView
             android:id="@+id/btn_start_game"
             style="@style/MenuFont"
-            android:layout_marginBottom="@dimen/button_margin_bottom"
+            android:gravity="center"
             android:text="@string/menu_start_game" />
 
         <TextView
             android:id="@+id/btn_scoreboard"
             style="@style/MenuFont"
-            android:layout_marginBottom="@dimen/button_margin_bottom"
+            android:gravity="center"
             android:text="@string/menu_scoreboard" />
 
         <TextView
             android:id="@+id/btn_settings"
             style="@style/MenuFont"
+            android:gravity="center"
             android:text="@string/menu_settings" />
 
     </LinearLayout>

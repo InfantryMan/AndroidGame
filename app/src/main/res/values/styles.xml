@@ -19,15 +19,30 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--Написанное нами-->
+
+    <!--Стиль для текста в меню-->
     <style name="MenuFont">
-        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textSize">@dimen/menu_buttons_text_size</item>
         <item name="android:textColor">@color/button</item>
         <item name="android:textStyle">bold</item>
         <item name="android:clickable">true</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/orbitron</item>
+
+    </style>
+
+    <!--Стиль для заголовков-->
+    <style name="TitleFont">
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColor">@color/button</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/orbitron</item>
     </style>
 
 </resources>

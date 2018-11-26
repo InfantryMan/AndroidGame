@@ -84,7 +84,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         startProgress();
-        userHandler = Api.getInstance().getUsersList(0, usersListListener);
+        userHandler = Api.getInstance().getUsersList(1, 10, usersListListener);
 
 
     }
