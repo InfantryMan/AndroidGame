@@ -39,6 +39,12 @@
             android:gravity="center"
             android:text="@string/log_in_menu" />
 
+        <TextView
+            android:id="@+id/btn_register_menu"
+            style="@style/MenuFont"
+            android:gravity="center"
+            android:text="@string/register" />
+
     </LinearLayout>
 
 </FrameLayout>

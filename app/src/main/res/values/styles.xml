@@ -50,4 +50,11 @@
         <item name="android:fontFamily">@font/orbitron</item>
     </style>
 
+    <!--Стиль для страницы логина-->
+    <style name="LoginStyle">
+        <item name="android:textSize">@dimen/notification_text_size</item>
+        <item name="android:textColor">@color/button</item>
+        <item name="android:clickable">false</item>
+    </style>
+
 </resources>

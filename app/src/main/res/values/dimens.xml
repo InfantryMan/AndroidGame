@@ -9,6 +9,19 @@
     <!--Notification-->
     <dimen name="notification_text_size">24sp</dimen>
 
+    <!--Login-->
+    <dimen name="login_text_edit_size">56dp</dimen>
+    <dimen name="login_margin">30dp</dimen>
+    <dimen name="login_button_width">128dp</dimen>
+    <dimen name="login_padding">30dp</dimen>
+    <dimen name="login_padding_left">10dp</dimen>
+
+    <!--Registration-->
+    <dimen name="registration_margin">30dp</dimen>
+    <dimen name="registration_padding">30dp</dimen>
+    <dimen name="registration_text_edit_size">56dp</dimen>
+
+
     <!--Common-->
     <dimen name="content_padding">20dp</dimen>
     <dimen name="gradient_angle">90</dimen>

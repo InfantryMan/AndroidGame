@@ -12,4 +12,6 @@
     <color name="application_background_begin">#2A3132</color>
     <color name="application_background_end">#2A3132</color>
 
+    <color name="border_color">#336B87</color>
+
 </resources>

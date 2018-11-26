@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn_login_menu)
     TextView login;
 
+    @BindView(R.id.btn_register_menu)
+    TextView register;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_login_menu)
     void onLaunchLoginClick() {
         final Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_register_menu)
+    void onLaunchRegisterClick() {
+        final Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
