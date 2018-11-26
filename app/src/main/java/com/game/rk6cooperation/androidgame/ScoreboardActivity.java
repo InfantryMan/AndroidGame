@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.game.rk6cooperation.androidgame.Network.Api;
@@ -23,10 +25,15 @@ public class ScoreboardActivity extends AppCompatActivity {
     @BindView(R.id.progress)
     ProgressBar progress;
 
-    @BindView(R.id.container)
-    LinearLayout userContainer;
+    public static final String EMPTY_LIST = "Leaderboard is empty";
+    @BindView(R.id.table)
+    TableLayout tableLayout;
+    @BindView(R.id.title_scoreboard)
+    TextView title;
 
     private ListenerHandler<Api.OnUsersListGetListener> userHandler;
+    @BindView(R.id.notification)
+    TextView notification;
 
     private Api.OnUsersListGetListener usersListListener = new Api.OnUsersListGetListener() {
         @Override
@@ -47,32 +54,23 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     private void setUsers(final ScoreboardUsers users) {
         List<ScoreboardUser> usersList = users.getUsers();
-        for (ScoreboardUser user : usersList
-                ) {
-            Log.d("MYTAG", user.getNickname());
-        }
-        stopProgress();
 
-//        if (!TextUtils.isEmpty(user.getNick())) {
-//            userName.setText(String.format("%s %s %s",
-//                    user.getFirstName(), user.getNick(), user.getLastName()));
-//        } else {
-//            userName.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
-//        }
-//        gender.setText(String.valueOf(user.getGender()));
-//
-//        avatar.setImageDrawable(null);
-//        if (!TextUtils.isEmpty(user.getAvatar())) {
-//            Picasso.get().load(user.getAvatar()).into(avatar);
-//        }
+        if (usersList.isEmpty()) {
+            notification.setText(EMPTY_LIST);
+            notification.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        tableLayout.setStretchAllColumns(true);
+        tableLayout.setShrinkAllColumns(true);
+
+        TableRow tableRow = new TableRow(this);
+
+        stopProgress();
     }
 
     private void resetUsers() {
 
-
-//        userName.setText("");
-//        gender.setText("");
-//        avatar.setImageDrawable(null);
     }
 
 
@@ -91,12 +89,12 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     private void startProgress() {
         progress.setVisibility(View.VISIBLE);
-        userContainer.setVisibility(View.INVISIBLE);
+//        userContainer.setVisibility(View.INVISIBLE);
     }
 
     private void stopProgress() {
         progress.setVisibility(View.INVISIBLE);
-        userContainer.setVisibility(View.VISIBLE);
+//        userContainer.setVisibility(View.VISIBLE);
     }
 
 

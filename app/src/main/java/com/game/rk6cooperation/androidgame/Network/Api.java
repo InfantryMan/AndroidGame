@@ -18,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class Api {
-    public static final String BASE_URL = Config.BASE_URL;
+    private static final String BASE_URL = Config.BASE_URL;
     private static final Api INSTANCE = new Api();
     private static final Gson GSON = new GsonBuilder()
             .create();
