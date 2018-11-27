@@ -5,7 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.game.rk6cooperation.androidgame.Config;
-import com.game.rk6cooperation.androidgame.CookieHolder;
+import com.game.rk6cooperation.androidgame.UserHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -62,7 +62,7 @@ public class Api {
                     if (matcher.find())
                     {
                         String sessionId = matcher.group(1);
-                        CookieHolder.getCookieHolder().setCookie(sessionId);
+                        UserHolder.getUserHolder().setCookie(sessionId);
                     }
                 }
             }
@@ -74,7 +74,7 @@ public class Api {
         @Override
         public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
             okhttp3.Request.Builder builder = chain.request().newBuilder();
-            String cookie = CookieHolder.getCookieHolder().getCookie();
+            String cookie = UserHolder.getUserHolder().getCookie();
             if (cookie != null) {
                 builder.addHeader("Cookie", cookie);
             }
@@ -161,6 +161,32 @@ public class Api {
 
                 } catch (IOException e) {
                     invokeErrorCheckAuth(handler, e);
+                }
+            }
+        });
+        return handler;
+    }
+
+    public ListenerHandler<OnLogoutListener> logout(final OnLogoutListener listener) {
+        final ListenerHandler<OnLogoutListener> handler = new ListenerHandler<>(listener);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final Response<ResponseBody> response = retrofitApi.logout().execute();
+
+                    try (final ResponseBody responseBody = response.body()) {
+                        if (response.code() != 200) {
+                            throw new IOException("HTTP code " + response.code());
+                        }
+                        if (responseBody == null) {
+                            throw new IOException("Cannot get body");
+                        }
+                        invokeSuccessLogout(handler);
+                    }
+
+                } catch (IOException e) {
+                    invokeErrorLogout(handler, e);
                 }
             }
         });
@@ -359,6 +385,37 @@ public class Api {
     }
 
 
+    private void invokeSuccessLogout(final ListenerHandler<OnLogoutListener> handler) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnLogoutListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onSuccess();
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+    private void invokeErrorLogout(final ListenerHandler<OnLogoutListener> handler, final Exception error) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnLogoutListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onError(error);
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+
     public interface OnUsersListGetListener {
         void onSuccess(final ScoreboardUsers users);
 
@@ -380,6 +437,12 @@ public class Api {
     public interface OnCheckAuthListener {
         void onSuccess();
         void onSessionInvalid();
+        void onError(final Exception error);
+    }
+
+    public interface OnLogoutListener {
+        void onSuccess();
+
         void onError(final Exception error);
     }
 }

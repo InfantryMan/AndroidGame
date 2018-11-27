@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onSessionInvalid() {
-            CookieHolder.getCookieHolder().deleteCookie();
+            UserHolder.getUserHolder().deleteCookie();
 
             SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
             editor.putString(Config.KEY_SESSION, null);
@@ -38,18 +37,33 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private Api.OnLogoutListener logoutListener = new Api.OnLogoutListener() {
+        @Override
+        public void onSuccess() {
+        }
+
+        @Override
+        public void onError(final Exception error) {
+        }
+    };
+
     private void setVisibilityAuthorized() {
         login.setVisibility(View.INVISIBLE);
         register.setVisibility(View.INVISIBLE);
         logout.setVisibility(View.VISIBLE);
+        nickname.setText(UserHolder.getUserHolder().getNickname());
+        nickname.setVisibility(View.VISIBLE);
     }
 
     private void setVisibilityUnauthorized() {
         login.setVisibility(View.VISIBLE);
         register.setVisibility(View.VISIBLE);
+        nickname.setVisibility(View.INVISIBLE);
         logout.setVisibility(View.INVISIBLE);
     }
 
+    @BindView(R.id.view_nickname)
+    TextView nickname;
 
     @BindView(R.id.btn_start_game)
     TextView startGame;
@@ -74,26 +88,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
+
+        setVisibilityUnauthorized();
+
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        String session = prefs.getString(Config.KEY_SESSION, null);
+        String nick = prefs.getString(Config.KEY_NICKNAME, null);
+
+
+        if(session != null) {
+            UserHolder.getUserHolder().setCookie(session);
+            UserHolder.getUserHolder().setNickname(nick);
+        }
+
+        ListenerHandler<Api.OnCheckAuthListener> checkAuthHandler = Api.getInstance().checkAuth(checkAuthListener);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        setVisibilityUnauthorized();
-
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        String session = prefs.getString(Config.KEY_SESSION, null);
-
-        ListenerHandler<Api.OnCheckAuthListener> checkAuthHandler = Api.getInstance().checkAuth(checkAuthListener);
-
-        if(session != null) {
-            CookieHolder.getCookieHolder().setCookie(session);
-        }
-
-        if(CookieHolder.getCookieHolder().isCookieExist()) {
+        if(UserHolder.getUserHolder().isCookieExist()) {
             setVisibilityAuthorized();
         }
     }
@@ -103,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
 
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putString(Config.KEY_SESSION, CookieHolder.getCookieHolder().getCookie());
+        editor.putString(Config.KEY_SESSION, UserHolder.getUserHolder().getCookie());
+        editor.putString(Config.KEY_NICKNAME, UserHolder.getUserHolder().getNickname());
         editor.apply();
     }
 
@@ -140,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_logout)
     void onLogoutClick() {
-        CookieHolder.getCookieHolder().deleteCookie();
+        ListenerHandler<Api.OnLogoutListener> checkLogoutHandler = Api.getInstance().logout(logoutListener);
+        UserHolder.getUserHolder().deleteCookie();
         setVisibilityUnauthorized();
     }
 

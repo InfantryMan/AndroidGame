@@ -1,16 +1,17 @@
 package com.game.rk6cooperation.androidgame;
 
-public class CookieHolder {
-    private static CookieHolder cookieHolder;
+public class UserHolder {
+    private static UserHolder cookieHolder;
 
     private String cookie;
+    private String nickname;
 
-    private CookieHolder() {
+    private UserHolder() {
     }
 
-    public static CookieHolder getCookieHolder() {
+    public static UserHolder getUserHolder() {
         if (cookieHolder == null) {
-            cookieHolder = new CookieHolder();
+            cookieHolder = new UserHolder();
         }
         return cookieHolder;
     }
@@ -24,6 +25,16 @@ public class CookieHolder {
     public void setCookie(String cookie) {
         if (cookieHolder != null) {
             cookieHolder.cookie = cookie;
+        }
+    }
+
+    public String getNickname() {
+        return cookieHolder.nickname;
+    }
+
+    public void setNickname(String nickname) {
+        if (cookieHolder != null) {
+            cookieHolder.nickname = nickname;
         }
     }
 

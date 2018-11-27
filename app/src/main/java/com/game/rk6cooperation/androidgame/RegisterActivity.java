@@ -23,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Api.OnRegisterListener regListener = new Api.OnRegisterListener() {
         @Override
         public void onSuccess(final RegUserResponse user) {
+            UserHolder.getUserHolder().setNickname(user.getUser().getNickname());
             Log.d("MYTAG", "SUCCESS REGISTRATION: " + user.getStatus() + " " + user.getUser().getNickname());
             finish();
         }

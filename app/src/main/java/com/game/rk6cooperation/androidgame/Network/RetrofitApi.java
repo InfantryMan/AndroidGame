@@ -18,6 +18,9 @@ interface RetrofitApi {
     @GET("/login/")
     Call<ResponseBody> checkAuth();
 
+    @POST("/logout/")
+    Call<ResponseBody> logout();
+
     @GET("scoreboard/{id}")
     Call<ResponseBody> getUser(@Path("id") Integer id);
 

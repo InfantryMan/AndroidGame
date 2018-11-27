@@ -33,6 +33,16 @@
 
     </style>
 
+    <style name="UserNickname_mainMenu">
+        <item name="android:textColor">@color/button</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/orbitron</item>
+    </style>
+
     <!--Стиль для заголовков-->
     <style name="TitleFont">
         <item name="android:textSize">@dimen/title_text_size</item>

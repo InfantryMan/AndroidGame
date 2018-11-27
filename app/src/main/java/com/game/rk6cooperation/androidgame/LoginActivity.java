@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private Api.OnAuthorizeListener authListener = new Api.OnAuthorizeListener() {
         @Override
         public void onSuccess(final AuthUserResponse user) {
+            UserHolder.getUserHolder().setNickname(user.getUser().getNickname());
             Log.d("MYTAG", "SUCCESS" + user.getStatus() + " " + user.getUser().getNickname());
             finish();
         }
