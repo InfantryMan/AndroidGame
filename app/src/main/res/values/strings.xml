@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidGame</string>
+    <string name="app_name">Cipher</string>
     <string name="menu_start_game">Start game</string>
     <string name="menu_scoreboard">Scoreboard</string>
     <string name="menu_settings">Settings</string>
@@ -12,5 +12,10 @@
     <string name="logout">Log out</string>
     <string name="submit">Submit</string>
 
+    <string name="scoreboard_nickname">Nickname</string>
+    <string name="scoreboard_place">#</string>
+    <string name="scoreboard_score">Score</string>
+    <string name="button_prev"><![CDATA[<]]></string>
+    <string name="button_next"><![CDATA[>]]></string>
 
 </resources>

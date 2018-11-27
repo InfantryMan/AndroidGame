@@ -30,16 +30,27 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/orbitron</item>
-
     </style>
 
+    <!--Стиль для лого-->
+    <style name="Logo">
+        <item name="android:textSize">@dimen/main_logo_text_size</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">normal|italic</item>
+        <item name="android:clickable">false</item>
+        <item name="android:fontFamily">@font/orbitron</item>
+    </style>
+
+    <!--Стиль для никнейма-->
     <style name="UserNickname_mainMenu">
         <item name="android:textColor">@color/button</item>
         <item name="android:textStyle">bold</item>
         <item name="android:clickable">false</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
         <item name="android:fontFamily">@font/orbitron</item>
     </style>
 
@@ -48,6 +59,14 @@
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:textColor">@color/button</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:clickable">false</item>
+        <item name="android:fontFamily">@font/orbitron</item>
+    </style>
+
+    <!--Стиль для таблицы лидеров-->
+    <style name="ScoreboardFont">
+        <item name="android:textSize">@dimen/scoreboard_text_size</item>
+        <item name="android:textColor">@color/button</item>
         <item name="android:clickable">false</item>
         <item name="android:fontFamily">@font/orbitron</item>
     </style>

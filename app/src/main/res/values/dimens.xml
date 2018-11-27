@@ -1,10 +1,14 @@
 <resources>
+    <!--Logo-->
+    <dimen name="main_logo_text_size">60sp</dimen>
+
     <!--Main Menu-->
     <dimen name="menu_buttons_text_size">40sp</dimen>
     <dimen name="main_menu_margin">120dp</dimen>
 
     <!--Scoreboard-->
-    <dimen name="scoreboard_margin">30dp</dimen>
+    <dimen name="scoreboard_margin">20dp</dimen>
+    <dimen name="scoreboard_text_size">18sp</dimen>
 
     <!--Notification-->
     <dimen name="notification_text_size">24sp</dimen>

@@ -39,26 +39,44 @@
 
         <TableLayout
             android:id="@+id/table"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            style="@style/ScoreboardFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/scoreboard_margin"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/scoreboard_margin">
 
         </TableLayout>
-
-
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/controls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/scoreboard_margin"
+        >
+        <Button
+            android:id="@+id/button_prev"
+            style="@style/TitleFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000"
+            android:layout_weight="1"
+            android:textColor="@color/button_switch_page"
+            android:text="@string/button_prev" />
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/container"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:padding="@dimen/content_padding"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:orientation="vertical"-->
-    <!--android:visibility="invisible"-->
-    <!--tools:visibility="visible">-->
-
-
-    <!--</LinearLayout>-->
+        <Button
+            android:id="@+id/button_next"
+            style="@style/TitleFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:layout_weight="1"
+            android:textColor="@color/button_switch_page"
+            android:text="@string/button_next" />
+    </LinearLayout>
 
 </FrameLayout>
