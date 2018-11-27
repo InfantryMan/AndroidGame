@@ -86,4 +86,14 @@
         <item name="android:clickable">false</item>
     </style>
 
+    <!--Стиль для кнопок клавиатуры в игре-->
+    <style name="GameButton">
+        <item name="android:layout_margin">@dimen/game_keyboard_margin_buttons</item>
+    </style>
+
+    <!--Стиль для игрового поля - бегущей строки-->
+    <style name="GameGround">
+        <item name="android:textSize">@dimen/game_ground_text_size</item>
+        <item name="android:textColor">@color/game_char</item>
+    </style>
 </resources>
