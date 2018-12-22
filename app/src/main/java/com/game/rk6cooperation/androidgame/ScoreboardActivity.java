@@ -56,7 +56,6 @@ public class ScoreboardActivity extends AppCompatActivity {
         public void onSuccess(final ScoreboardUsers users) {
             setUsers(users);
             stopProgress();
-            Log.d("MYTAG", "SUCCESS" + users.getUsers().get(0).getNickname());
         }
 
         @Override
