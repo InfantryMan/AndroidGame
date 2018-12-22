@@ -92,14 +92,19 @@ public class Api {
                     final Response<ResponseBody> response = retrofitApi.login(authUserRequest).execute();
 
                     try (final ResponseBody responseBody = response.body()) {
-                        if (response.code() != 200) {
+                        if (response.code() == 400) {
+                            invokeInvalidAuth(handler);
+                        }
+                        else if (response.code() != 200) {
                             throw new IOException("HTTP code " + response.code());
                         }
-                        if (responseBody == null) {
+                        else if (responseBody == null) {
                             throw new IOException("Cannot get body");
                         }
-                        final String body = responseBody.string();
-                        invokeSuccessAuth(handler, parseAuthUser(body));
+                        else {
+                            final String body = responseBody.string();
+                            invokeSuccessAuth(handler, parseAuthUser(body));
+                        }
                     }
 
                 } catch (IOException e) {
@@ -120,14 +125,19 @@ public class Api {
                     final Response<ResponseBody> response = retrofitApi.register(authUserRequest).execute();
 
                     try (final ResponseBody responseBody = response.body()) {
-                        if (response.code() != 200) {
+                        if (response.code() == 400) {
+                            invokeInvalidRegister(handler);
+                        }
+                        else if (response.code() != 200) {
                             throw new IOException("HTTP code " + response.code());
                         }
-                        if (responseBody == null) {
+                        else if (responseBody == null) {
                             throw new IOException("Cannot get body");
                         }
-                        final String body = responseBody.string();
-                        invokeSuccessReg(handler, parseRegUser(body));
+                        else {
+                            final String body = responseBody.string();
+                            invokeSuccessReg(handler, parseRegUser(body));
+                        }
                     }
 
                 } catch (IOException e) {
@@ -150,10 +160,10 @@ public class Api {
                         if (response.code() == 401) {
                             invokeSessionInvalidCheckAuth(handler);
                         }
-                        if (response.code() != 200) {
+                        else if (response.code() != 200) {
                             throw new IOException("HTTP code " + response.code());
                         }
-                        if (responseBody == null) {
+                        else if (responseBody == null) {
                             throw new IOException("Cannot get body");
                         }
                         invokeSuccessCheckAuth(handler);
@@ -308,6 +318,36 @@ public class Api {
         });
     }
 
+    private void invokeInvalidAuth(final ListenerHandler<OnAuthorizeListener> handler) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnAuthorizeListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onSessionInvalid();
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+    private void invokeInvalidRegister(final ListenerHandler<OnRegisterListener> handler) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnRegisterListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onRegisterInvalid();
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
     private void invokeSuccessReg(final ListenerHandler<OnRegisterListener> handler, final RegUserResponse user) {
         mainHandler.post(new Runnable() {
             @Override
@@ -424,13 +464,13 @@ public class Api {
 
     public interface OnAuthorizeListener {
         void onSuccess(final AuthUserResponse user);
-
+        void onSessionInvalid();
         void onError(final Exception error);
     }
 
     public interface OnRegisterListener {
         void onSuccess(final RegUserResponse user);
-
+        void onRegisterInvalid();
         void onError(final Exception error);
     }
 

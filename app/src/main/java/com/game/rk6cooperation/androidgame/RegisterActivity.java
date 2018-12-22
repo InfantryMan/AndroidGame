@@ -33,6 +33,13 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(RegisterActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d("MYTAG", "ERROR" + error.getMessage());
         }
+
+        @Override
+        public void onRegisterInvalid() {
+            String message = "Login already used";
+            Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+            Log.d("MYTAG", "ERROR" + message);
+        }
     };
 
     @BindView(R.id.login)

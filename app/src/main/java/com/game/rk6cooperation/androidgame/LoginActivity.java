@@ -33,6 +33,13 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d("MYTAG", "ERROR" + error.getMessage());
         }
+
+        @Override
+        public void onSessionInvalid () {
+            String message = "Invalid login or password";
+            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+            Log.d("MYTAG", "ERROR" + message);
+        }
     };
 
 
