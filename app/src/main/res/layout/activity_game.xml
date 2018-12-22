@@ -1,6 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_color">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/game_margin"
+        android:layout_marginRight="@dimen/game_margin"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/game_ground_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></LinearLayout>
+
+        <TableLayout
+            android:id="@+id/table_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="8">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button1"
+                    style="@style/GameButton"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/GameButton"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/button3"
+                    style="@style/GameButton"
+                    android:text="3" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button4"
+                    style="@style/GameButton"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/button5"
+                    style="@style/GameButton"
+                    android:text="5" />
+
+                <Button
+                    android:id="@+id/button6"
+                    style="@style/GameButton"
+                    android:text="6" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button7"
+                    style="@style/GameButton"
+                    android:text="7" />
+
+                <Button
+                    android:id="@+id/button8"
+                    style="@style/GameButton"
+                    android:text="8" />
+
+                <Button
+                    android:id="@+id/button9"
+                    style="@style/GameButton"
+                    android:text="9" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button_star"
+                    style="@style/GameButton"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/button0"
+                    style="@style/GameButton"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/button_hashtag"
+                    style="@style/GameButton"
+                    android:text="#" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

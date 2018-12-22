@@ -25,6 +25,11 @@
     <dimen name="registration_padding">30dp</dimen>
     <dimen name="registration_text_edit_size">56dp</dimen>
 
+    <!--Game-->
+    <dimen name="game_keyboard_margin_bottom">12dp</dimen>
+    <dimen name="game_keyboard_margin_buttons">4dp</dimen>
+    <dimen name="game_margin">24dp</dimen>
+    <dimen name="game_ground_text_size">48dp</dimen>
 
     <!--Common-->
     <dimen name="content_padding">20dp</dimen>
