@@ -328,6 +328,8 @@ public class GameActivity extends AppCompatActivity {
                 .build();
     }
 
+
+    @SuppressWarnings("deprecation")
     private void createOldSoundPool() {
         mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
     }
