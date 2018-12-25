@@ -15,13 +15,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="1"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/score"
+                    style="@style/TitleFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/game_score"
+                    android:layout_marginRight="@dimen/game_score_margin"/>
+
+                <TextView
+                    android:id="@+id/score_value"
+                    style="@style/TitleFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/score"
+                    android:text="0"/>
+            </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/game_ground_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_weight="10"
             android:orientation="vertical"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
@@ -37,7 +58,7 @@
             android:id="@+id/table_layout"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="8">
+            android:layout_weight="10">
 
 
         </TableLayout>

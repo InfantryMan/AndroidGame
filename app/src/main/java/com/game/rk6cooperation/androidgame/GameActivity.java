@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.game.rk6cooperation.androidgame.Game.RunningNumber;
@@ -51,9 +52,14 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.table_layout)
     TableLayout keyboardLayout;
 
+    @BindView(R.id.score_value)
+    TextView scoreValue;
+
     // Количество строк с числами в игре
     private final List<RunningNumber> runningNumberList = new ArrayList<>();
     private List<Button> buttons = new ArrayList<>();
+
+    private int score = 0;
 
     private void initList() {
         for (int i = 0; i < Constants.ROWS_NUMBER; i++) {
@@ -86,6 +92,7 @@ public class GameActivity extends AppCompatActivity {
             }
             keyboardLayout.addView(tableRow);
         }
+
         TableRow tableRow = new TableRow(this);
         tableRow.setLayoutParams(layoutParams);
         Button buttonStar = new Button(newContext);
@@ -204,12 +211,18 @@ public class GameActivity extends AppCompatActivity {
         messageQueue.add(msg);
     }
 
+    private void updateScore() {
+        score++;
+        scoreValue.setText(String.valueOf(score));
+    }
+
     Runnable gameMechanicRunnable = new Runnable() {
 
         private void handleClickNumber(Message msg) {
             String valueInString = availableNumbers.get(msg.arg1);
             for (RunningNumber rn : runningNumberList) {
                 if (rn.getValueInString().equals(valueInString)) {
+                    handler.sendEmptyMessage(1);
                     int indexOfMas = (int) (Math.random() * availableNumbers.size());
                     rn.setValueInString(availableNumbers.get(indexOfMas));
                     rn.setxCoord(0.0);
@@ -266,16 +279,17 @@ public class GameActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                Log.d("MYTAG", "KUTAG");
                 handleLose();
             }
+            if (msg.what == 1) {
+                updateScore();
+            }
+
         }
     };
 
     private void handleLose() {
         this.isFinished = true;
-        Log.d("MYTAG2", "handleLose");
-
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

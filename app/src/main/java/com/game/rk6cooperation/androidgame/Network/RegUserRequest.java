@@ -25,3 +25,4 @@ class RegUserRequest {
         this.password = password;
     }
 }
+

@@ -11,6 +11,8 @@
     <string name="register">Register</string>
     <string name="logout">Log out</string>
     <string name="submit">Submit</string>
+    <string name="game_score">Score: </string>
+
 
     <string name="scoreboard_nickname">Nickname</string>
     <string name="scoreboard_place">#</string>

@@ -263,10 +263,8 @@ public class Api {
             public void run() {
                 OnUsersListGetListener listener = handler.getListener();
                 if (listener != null) {
-                    Log.d("API", "listener NOT null");
                     listener.onSuccess(users);
                 } else {
-                    Log.d("API", "listener is null");
                 }
             }
         });
@@ -277,12 +275,6 @@ public class Api {
             @Override
             public void run() {
                 OnUsersListGetListener listener = handler.getListener();
-                if (listener != null) {
-                    Log.d("API", "listener NOT null");
-                    listener.onError(error);
-                } else {
-                    Log.d("API", "listener is null");
-                }
             }
         });
     }
@@ -294,10 +286,7 @@ public class Api {
             public void run() {
                 OnAuthorizeListener listener = handler.getListener();
                 if (listener != null) {
-                    Log.d("API", "listener NOT null");
                     listener.onSuccess(user);
-                } else {
-                    Log.d("API", "listener is null");
                 }
             }
         });
@@ -309,10 +298,7 @@ public class Api {
             public void run() {
                 OnAuthorizeListener listener = handler.getListener();
                 if (listener != null) {
-                    Log.d("API", "listener NOT null");
                     listener.onError(error);
-                } else {
-                    Log.d("API", "listener is null");
                 }
             }
         });
@@ -324,10 +310,7 @@ public class Api {
             public void run() {
                 OnAuthorizeListener listener = handler.getListener();
                 if (listener != null) {
-                    Log.d("API", "listener NOT null");
                     listener.onSessionInvalid();
-                } else {
-                    Log.d("API", "listener is null");
                 }
             }
         });
@@ -339,10 +322,7 @@ public class Api {
             public void run() {
                 OnRegisterListener listener = handler.getListener();
                 if (listener != null) {
-                    Log.d("API", "listener NOT null");
                     listener.onRegisterInvalid();
-                } else {
-                    Log.d("API", "listener is null");
                 }
             }
         });
@@ -354,10 +334,7 @@ public class Api {
             public void run() {
                 OnRegisterListener listener = handler.getListener();
                 if (listener != null) {
-                    Log.d("API", "listener NOT null");
                     listener.onSuccess(user);
-                } else {
-                    Log.d("API", "listener is null");
                 }
             }
         });

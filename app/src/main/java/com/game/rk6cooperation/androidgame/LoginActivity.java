@@ -22,21 +22,18 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onSuccess(final AuthUserResponse user) {
             UserHolder.getUserHolder().setNickname(user.getUser().getNickname());
-            Log.d("MYTAG", "SUCCESS" + user.getStatus() + " " + user.getUser().getNickname());
             finish();
         }
 
         @Override
         public void onError(final Exception error) {
             Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d("MYTAG", "ERROR" + error.getMessage());
         }
 
         @Override
         public void onSessionInvalid () {
             String message = "Invalid login or password";
             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-            Log.d("MYTAG", "ERROR" + message);
         }
     };
 

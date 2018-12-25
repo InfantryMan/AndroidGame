@@ -79,7 +79,10 @@
 
     <!--Стиль для кнопок клавиатуры в игре-->
     <style name="GameButton">
-        <item name="android:layout_margin">@dimen/game_keyboard_margin_buttons</item>
+        <!--<item name="android:layout_margin">@dimen/game_keyboard_margin_buttons</item>-->
+        <!--<item name="android:layout_marginTop">24dp</item>-->
+        <!--<item name="android:layout_width">match_parent</item>-->
+        <!--<item name="android:layout_height">wrap_content</item>-->
     </style>
 
     <!--Стиль для игрового поля - бегущей строки-->

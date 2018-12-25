@@ -63,7 +63,6 @@ public class ScoreboardActivity extends AppCompatActivity {
             resetUsers();
             stopProgress();
             Toast.makeText(ScoreboardActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d("MYTAG", "ERROR" + error.getMessage());
         }
     };
 
@@ -106,6 +105,8 @@ public class ScoreboardActivity extends AppCompatActivity {
         for(ScoreboardUser su: usersList) {
             TableRow rowUser = new TableRow(this);
             rowUser.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            Log.d("MYTAG", su.getNickname());
 
             TextView user_place = createScoreboardTextView(su.getPlace().toString());
             TextView user_nickname = createScoreboardTextView(su.getNickname());
