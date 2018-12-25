@@ -15,6 +15,9 @@ interface RetrofitApi {
     @GET("scoreboard/")
     Call<ResponseBody> getUsersList(@Query("page") Integer page, @Query("on_page") Integer on_page);
 
+    @POST("scoreboard/")
+    Call<ResponseBody> sendResult(@Body SendScore sendScore);
+
     @GET("/login/")
     Call<ResponseBody> checkAuth();
 

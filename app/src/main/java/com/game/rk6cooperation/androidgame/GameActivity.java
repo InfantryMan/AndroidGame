@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 import com.game.rk6cooperation.androidgame.Game.RunningNumber;
 import com.game.rk6cooperation.androidgame.Game.DrawView;
+import com.game.rk6cooperation.androidgame.Network.Api;
+import com.game.rk6cooperation.androidgame.Network.AuthUserResponse;
+import com.game.rk6cooperation.androidgame.Network.ListenerHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +39,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GameActivity extends AppCompatActivity {
+
+    private final Api.OnSaveScoreListener saveScoreListener = new Api.OnSaveScoreListener() {
+        @Override
+        public void onSuccess() {
+            Log.d("MYTAG", "Score saved");
+        }
+
+        @Override
+        public void onError(final Exception error) {
+            Log.d("MYTAG", "Score save - ERROR" + error.getMessage());
+        }
+
+    };
 
     private static final List<String> availableNumbers = Arrays.asList(
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "#"
@@ -290,6 +306,10 @@ public class GameActivity extends AppCompatActivity {
 
     private void handleLose() {
         this.isFinished = true;
+        Log.d("MYTAG2", "handleLose");
+
+        ListenerHandler<Api.OnSaveScoreListener> checkAuthHandler = Api.getInstance()
+                .saveScore(this.score, saveScoreListener);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

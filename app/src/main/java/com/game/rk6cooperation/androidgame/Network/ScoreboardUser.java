@@ -3,7 +3,7 @@ package com.game.rk6cooperation.androidgame.Network;
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class ScoreboardUser {
 
-    private final String nickname = "";
+    private String nickname = "";
 
     private Integer score = 0;
 

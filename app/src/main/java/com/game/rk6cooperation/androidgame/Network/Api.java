@@ -232,6 +232,31 @@ public class Api {
         return handler;
     }
 
+    public ListenerHandler<OnSaveScoreListener> saveScore(final Integer score, final OnSaveScoreListener listener) {
+        final ListenerHandler<OnSaveScoreListener> handler = new ListenerHandler<>(listener);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    SendScore sendScore = new SendScore(score);
+                    final Response<ResponseBody> response = retrofitApi.sendResult(sendScore).execute();
+
+                    try (final ResponseBody responseBody = response.body()) {
+                        if (response.code() != 200) {
+                            throw new IOException("HTTP code " + response.code());
+                        }
+
+                        invokeSuccessSaveScore(handler);
+                    }
+
+                } catch (IOException e) {
+                    invokeErrorSaveScore(handler, e);
+                }
+            }
+        });
+        return handler;
+    }
+
 
     private ScoreboardUsers parseScoreboardUsers(final String body) throws IOException {
         try {
@@ -264,7 +289,6 @@ public class Api {
                 OnUsersListGetListener listener = handler.getListener();
                 if (listener != null) {
                     listener.onSuccess(users);
-                } else {
                 }
             }
         });
@@ -432,6 +456,36 @@ public class Api {
         });
     }
 
+    private void invokeSuccessSaveScore(final ListenerHandler<OnSaveScoreListener> handler) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnSaveScoreListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onSuccess();
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
+    private void invokeErrorSaveScore(final ListenerHandler<OnSaveScoreListener> handler, final Exception error) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                OnSaveScoreListener listener = handler.getListener();
+                if (listener != null) {
+                    Log.d("API", "listener NOT null");
+                    listener.onError(error);
+                } else {
+                    Log.d("API", "listener is null");
+                }
+            }
+        });
+    }
+
 
     public interface OnUsersListGetListener {
         void onSuccess(final ScoreboardUsers users);
@@ -458,6 +512,12 @@ public class Api {
     }
 
     public interface OnLogoutListener {
+        void onSuccess();
+
+        void onError(final Exception error);
+    }
+
+    public interface OnSaveScoreListener {
         void onSuccess();
 
         void onError(final Exception error);
