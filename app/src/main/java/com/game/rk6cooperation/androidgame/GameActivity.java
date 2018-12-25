@@ -289,20 +289,18 @@ public class GameActivity extends AppCompatActivity {
 
     Thread gameThread = new Thread(gameMechanicRunnable);
 
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
+    Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+        public boolean handleMessage(Message msg) {
             if (msg.what == 0) {
                 handleLose();
             }
             if (msg.what == 1) {
                 updateScore();
             }
-
+            return true;
         }
-    };
+    });
 
     private void handleLose() {
         this.isFinished = true;
