@@ -1,37 +1,39 @@
 <resources>
     <!--Logo-->
-    <dimen name="main_logo_text_size">60sp</dimen>
+    <dimen name="main_logo_text_size">64sp</dimen>
 
     <!--Main Menu-->
     <dimen name="menu_buttons_text_size">40sp</dimen>
     <dimen name="main_menu_margin">120dp</dimen>
 
     <!--Scoreboard-->
-    <dimen name="scoreboard_margin">20dp</dimen>
-    <dimen name="scoreboard_text_size">18sp</dimen>
+    <dimen name="scoreboard_margin">24dp</dimen>
+    <dimen name="scoreboard_text_size">16sp</dimen>
 
     <!--Notification-->
     <dimen name="notification_text_size">24sp</dimen>
 
     <!--Login-->
     <dimen name="login_text_edit_size">56dp</dimen>
-    <dimen name="login_margin">30dp</dimen>
+    <dimen name="login_margin">32dp</dimen>
     <dimen name="login_button_width">128dp</dimen>
-    <dimen name="login_padding">30dp</dimen>
+    <dimen name="login_padding">32dp</dimen>
 
     <!--Registration-->
-    <dimen name="registration_margin">30dp</dimen>
-    <dimen name="registration_padding">30dp</dimen>
+    <dimen name="registration_margin">32dp</dimen>
+    <dimen name="registration_padding">32dp</dimen>
     <dimen name="registration_text_edit_size">56dp</dimen>
 
     <!--Game-->
-    <dimen name="game_keyboard_margin_buttons">10dp</dimen>
+    <dimen name="game_keyboard_margin_buttons">8dp</dimen>
     <dimen name="game_margin">24dp</dimen>
-    <dimen name="game_score_margin">16dp</dimen>
+    <dimen name="game_score_margin_right">16dp</dimen>
+    <dimen name="game_score_margin_bottom">16dp</dimen>
+
 
 
     <!--Common-->
-    <dimen name="content_padding">20dp</dimen>
+    <dimen name="content_padding">24dp</dimen>
     <dimen name="gradient_angle">90</dimen>
 
 

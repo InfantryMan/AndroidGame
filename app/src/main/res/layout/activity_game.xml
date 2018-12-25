@@ -19,7 +19,8 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/game_score_margin_bottom">
                 <TextView
                     android:id="@+id/score"
                     style="@style/TitleFont"
@@ -27,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/game_score"
-                    android:layout_marginRight="@dimen/game_score_margin"/>
+                    android:layout_marginRight="@dimen/game_score_margin_right"/>
 
                 <TextView
                     android:id="@+id/score_value"
