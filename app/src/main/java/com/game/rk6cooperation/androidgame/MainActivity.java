@@ -71,9 +71,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn_scoreboard)
     TextView scoreBoard;
 
-    @BindView(R.id.btn_settings)
-    TextView settings;
-
     @BindView(R.id.btn_login_menu)
     TextView login;
 
@@ -135,12 +132,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_scoreboard)
     void onLaunchScoreboardClick() {
         final Intent intent = new Intent(this, ScoreboardActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btn_settings)
-    void onLaunchSettingsClick() {
-        final Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 

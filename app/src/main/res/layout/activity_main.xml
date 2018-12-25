@@ -35,12 +35,6 @@
             android:text="@string/menu_scoreboard" />
 
         <TextView
-            android:id="@+id/btn_settings"
-            style="@style/MenuFont"
-            android:gravity="center"
-            android:text="@string/menu_settings" />
-
-        <TextView
             android:id="@+id/btn_login_menu"
             style="@style/MenuFont"
             android:gravity="center"

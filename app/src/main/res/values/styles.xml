@@ -28,6 +28,12 @@
         <item name="android:fontFamily">@font/orbitron</item>
     </style>
 
+    <style name="SubMenu">
+        <item name="android:textSize">@dimen/submenu_text_size</item>
+        <item name="android:textColor">@color/button</item>
+        <item name="android:fontFamily">@font/orbitron</item>
+    </style>
+
     <!--Стиль для лого-->
     <style name="Logo">
         <item name="android:textSize">@dimen/main_logo_text_size</item>

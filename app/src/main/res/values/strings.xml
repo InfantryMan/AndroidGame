@@ -12,6 +12,8 @@
     <string name="logout">Log out</string>
     <string name="submit">Submit</string>
     <string name="game_score">Score: </string>
+    <string name="settings_sound">Sound</string>
+
     <string name="game_over">The game is over. Your score: </string>
     <string name="turn_off_sound">Turn off sound</string>
     <string name="turn_on_sound">Turn on sound</string>
