@@ -51,7 +51,7 @@ public class Api {
         return INSTANCE;
     }
 
-    public class ReceivedCookiesInterceptor implements Interceptor {
+    class ReceivedCookiesInterceptor implements Interceptor {
         @Override
         public okhttp3.Response intercept(Chain chain) throws IOException {
             okhttp3.Response originalResponse = chain.proceed(chain.request());

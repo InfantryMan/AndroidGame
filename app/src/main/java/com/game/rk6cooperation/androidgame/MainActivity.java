@@ -16,7 +16,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Api.OnCheckAuthListener checkAuthListener = new Api.OnCheckAuthListener() {
+    private final Api.OnCheckAuthListener checkAuthListener = new Api.OnCheckAuthListener() {
         @Override
         public void onSuccess() {
         }

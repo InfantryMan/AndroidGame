@@ -3,7 +3,7 @@ package com.game.rk6cooperation.androidgame.Network;
 import android.os.Handler;
 import android.os.HandlerThread;
 
-public class WorkerThread extends HandlerThread {
+class WorkerThread extends HandlerThread {
 
     private Handler mWorkerHandler;
 

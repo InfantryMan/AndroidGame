@@ -46,8 +46,7 @@ public class UserHolder {
 
     public Boolean isCookieExist() {
         if (cookieHolder != null) {
-            if(cookie != null)
-                return true;
+            return cookie != null;
         }
         return false;
     }

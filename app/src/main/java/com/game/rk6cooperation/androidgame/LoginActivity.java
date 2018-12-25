@@ -18,9 +18,7 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ListenerHandler<Api.OnAuthorizeListener> authHandler;
-
-    private Api.OnAuthorizeListener authListener = new Api.OnAuthorizeListener() {
+    private final Api.OnAuthorizeListener authListener = new Api.OnAuthorizeListener() {
         @Override
         public void onSuccess(final AuthUserResponse user) {
             UserHolder.getUserHolder().setNickname(user.getUser().getNickname());
@@ -74,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        authHandler = Api.getInstance().authorize(login, password, authListener);
+        ListenerHandler<Api.OnAuthorizeListener> authHandler = Api.getInstance().authorize(login, password, authListener);
     }
 
 }

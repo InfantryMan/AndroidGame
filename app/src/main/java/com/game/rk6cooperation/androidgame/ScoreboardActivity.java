@@ -49,7 +49,7 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     Integer pages_count = 0;
     Integer current_page = 1;
-    Integer on_page = 10;
+    final Integer on_page = 10;
 
     private Api.OnUsersListGetListener usersListListener = new Api.OnUsersListGetListener() {
         @Override

@@ -1,6 +1,6 @@
 package com.game.rk6cooperation.androidgame.Network;
 
-public class RegUserRequest {
+class RegUserRequest {
     private String nickname = "";
     private String password = "";
 

@@ -14,10 +14,6 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <!--Написанное нами-->
 
     <!--Стиль для текста в меню-->
@@ -80,11 +76,6 @@
     </style>
 
     <!--Стиль для страницы логина-->
-    <style name="LoginStyle">
-        <item name="android:textSize">@dimen/notification_text_size</item>
-        <item name="android:textColor">@color/button</item>
-        <item name="android:clickable">false</item>
-    </style>
 
     <!--Стиль для кнопок клавиатуры в игре-->
     <style name="GameButton">
@@ -92,8 +83,4 @@
     </style>
 
     <!--Стиль для игрового поля - бегущей строки-->
-    <style name="GameGround">
-        <item name="android:textSize">@dimen/game_ground_text_size</item>
-        <item name="android:textColor">@color/game_char</item>
-    </style>
 </resources>

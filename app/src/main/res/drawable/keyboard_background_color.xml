@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:keep="@drawable/keyboard_background_color">
     <item>
         <shape>
             <gradient android:angle="@dimen/gradient_angle" android:endColor="@color/border_color" android:startColor="@color/border_color" />

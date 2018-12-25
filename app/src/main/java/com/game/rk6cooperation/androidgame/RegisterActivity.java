@@ -18,9 +18,7 @@ import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private ListenerHandler<Api.OnRegisterListener> regHandler;
-
-    private Api.OnRegisterListener regListener = new Api.OnRegisterListener() {
+    private final Api.OnRegisterListener regListener = new Api.OnRegisterListener() {
         @Override
         public void onSuccess(final RegUserResponse user) {
             UserHolder.getUserHolder().setNickname(user.getUser().getNickname());
@@ -82,6 +80,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-       regHandler = Api.getInstance().register(login, password, regListener);
+        ListenerHandler<Api.OnRegisterListener> regHandler = Api.getInstance().register(login, password, regListener);
     }
 }

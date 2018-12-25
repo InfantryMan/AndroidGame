@@ -1,6 +1,5 @@
 package com.game.rk6cooperation.androidgame;
 
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -8,147 +7,153 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
-import com.game.rk6cooperation.androidgame.Network.WorkerThread;
+import com.game.rk6cooperation.androidgame.Game.RunningNumber;
+import com.game.rk6cooperation.androidgame.Game.DrawView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class GameActivity extends AppCompatActivity {
 
-    static int moveValue = 150;
-    private final Executor executor = Executors.newSingleThreadExecutor();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
-    private final List<String> availableNumbers = Arrays.asList(
+    private static final List<String> availableNumbers = Arrays.asList(
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "#"
     );
     private SoundPool mSoundPool;
     private AssetManager mAssetManager;
-    private int mOneButSound, mTwoButSound, mThreeButSound, mFourButSound;
-    private int mFiveButSound, mSixButSound, mSevenButSound,  mEightButSound;
-    private int mNineButSound, mZeroButSound, m11ButSound, m12ButSound;
+    private List<Integer> sounds = null;
     private int mStreamID;
 
+
     @BindView(R.id.game_ground_container)
-    LinearLayout gameGroundContainer;
-    @BindView(R.id.button0)
-    Button button0;
-    @BindView(R.id.button1)
-    Button button1;
-    @BindView(R.id.button2)
-    Button button2;
-    @BindView(R.id.button3)
-    Button button3;
-    @BindView(R.id.button4)
-    Button button4;
-    @BindView(R.id.button5)
-    Button button5;
-    @BindView(R.id.button6)
-    Button button6;
-    @BindView(R.id.button7)
-    Button button7;
-    @BindView(R.id.button8)
-    Button button8;
-    @BindView(R.id.button9)
-    Button button9;
-    @BindView(R.id.button_hashtag)
-    Button buttonHashtag;
-    @BindView(R.id.button_star)
-    Button buttonStar;
-    private Queue<TextView> numbers = new LinkedList<>();
-    private WorkerThread workerThreadGenerateNumbers;
-    private WorkerThread workerThreadMoveNumbers;
+    LinearLayout gameGround;
+    
+    @BindView(R.id.table_layout)
+    TableLayout keyboardLayout;
+
+    // Количество строк с числами в игре
+    private final List<RunningNumber> runningNumberList = new ArrayList<>();
+    private List<Button> buttons = new ArrayList<>();
+
+    private void initList() {
+        for (int i = 0; i < Constants.ROWS_NUMBER; i++) {
+            int indexOfMas = (int) (Math.random() * availableNumbers.size());
+            double velocity = Constants.VELOCITY;
+            RunningNumber runningNumber = new RunningNumber(availableNumbers.get(indexOfMas), i, velocity);
+            runningNumberList.add(runningNumber);
+        }
+        DrawView drawView = new DrawView(this, runningNumberList, Constants.ROWS_NUMBER);
+        gameGround.addView(drawView);
+
+    }
+
+    private void generateKeyboard() {
+        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams();
+        layoutParams.width = TableRow.LayoutParams.MATCH_PARENT;
+        layoutParams.height = TableRow.LayoutParams.MATCH_PARENT;
+        ContextThemeWrapper newContext = new ContextThemeWrapper(this, R.style.GameButton);
+
+        for (int i = 0; i < Constants.KEYBOARD_ROW_NUMBER; i++) {
+            TableRow tableRow = new TableRow(this);
+            tableRow.setLayoutParams(layoutParams);
+            for (int j = 0; j < Constants.KEYBOARD_COL_NUMBER; j++) {
+                Button button = new Button(newContext);
+                int buttonIndex = i * Constants.KEYBOARD_COL_NUMBER + j;
+                button.setText(availableNumbers.get(buttonIndex + 1));
+                button.setTag(buttonIndex + 1);
+                tableRow.addView(button);
+                buttons.add(button);
+            }
+            keyboardLayout.addView(tableRow);
+        }
+        TableRow tableRow = new TableRow(this);
+        tableRow.setLayoutParams(layoutParams);
+        Button buttonStar = new Button(newContext);
+        buttonStar.setText(availableNumbers.get(10));
+        buttonStar.setTag(10);
+        buttons.add(buttonStar);
+        tableRow.addView(buttonStar);
+
+        Button button0 = new Button(newContext);
+        button0.setText(availableNumbers.get(0));
+        button0.setTag(0);
+        buttons.add(0, button0);
+        tableRow.addView(button0);
+
+        Button buttonHash = new Button(newContext);
+        buttonHash.setText(availableNumbers.get(11));
+        buttonHash.setTag(11);
+        buttons.add(buttonHash);
+        tableRow.addView(buttonHash);
+        keyboardLayout.addView(tableRow);
+
+        bindKeyboard();
+    }
+
+    private void bindKeyboard() {
+        for (Button bn: buttons) {
+            bn.setOnClickListener(onGameButtonClick);
+        }
+    }
+
+    View.OnClickListener onGameButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Button button = (Button) v;
+            Integer id = (int) button.getTag();
+            if (sounds != null) {
+                playSound(sounds.get(id));
+            }
+            pushMessage(0, id);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
         ButterKnife.bind(this);
+        initList();
+        isFinished = false;
+        generateKeyboard();
 
-        workerThreadGenerateNumbers = new WorkerThread("WorkerGenerateNumbers");
-        workerThreadMoveNumbers = new WorkerThread("WorkerMoveNumbers");
-
-        Runnable generateNumbersTask = new Runnable() {
+        gameGround.post(new Runnable() {
             @Override
             public void run() {
-                generateNumbers();
+                gameThread.start();
             }
-        };
-
-        Runnable moveNumbersTask = new Runnable() {
-            @Override
-            public void run() {
-                moveNumbers();
-            }
-        };
-
-        workerThreadGenerateNumbers.start();
-        workerThreadGenerateNumbers.prepareHandler();
-        workerThreadGenerateNumbers.postTask(generateNumbersTask);
-
-        workerThreadMoveNumbers.start();
-        workerThreadMoveNumbers.prepareHandler();
-        workerThreadMoveNumbers.postTask(moveNumbersTask);
-
-//        TextView textView = new TextView(this);
-//        textView.setText("Test");
-//        gameGroundContainer.addView(textView);
-//
-//        numbers.offer(textView);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                final View textViewElement = numbers.poll();
-//                if (numbers.isEmpty()) {
-//                    Log.d("MYTAG", "Queue is empty");
-//                } else {
-//                    Log.d("MYTAG", "Queue is not empty");
-//                }
-//                mainHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        ObjectAnimator animation = ObjectAnimator.ofFloat(textViewElement, "translationX", 150);
-//                        animation.setDuration(5000);
-//                        animation.start();
-//                    }
-//                });
-//                numbers.add(textViewElement);
-//            }
-//        }).start();
-
+        });
     }
 
     @Override
     protected void onDestroy() {
-        workerThreadGenerateNumbers.quit();
-        workerThreadMoveNumbers.quit();
         super.onDestroy();
     }
 
     @Override
     protected void onStop() {
-        workerThreadGenerateNumbers.quit();
-        workerThreadMoveNumbers.quit();
+        isFinished = true;
+        handler.removeCallbacks(gameMechanicRunnable);
         super.onStop();
     }
 
@@ -164,19 +169,20 @@ public class GameActivity extends AppCompatActivity {
 
         mAssetManager = getAssets();
 
-        mZeroButSound = loadSound(Config.SOUND_ZERO);
-        mOneButSound = loadSound(Config.SOUND_ONE);
-        mTwoButSound = loadSound(Config.SOUND_TWO);
-        mThreeButSound = loadSound(Config.SOUND_THREE);
-        mFourButSound = loadSound(Config.SOUND_FOUR);
-        mFiveButSound = loadSound(Config.SOUND_FIVE);
-        mSixButSound = loadSound(Config.SOUND_SIX);
-        mSevenButSound = loadSound(Config.SOUND_SEVEN);
-        mEightButSound = loadSound(Config.SOUND_EIGHT);
-        mNineButSound = loadSound(Config.SOUND_NINE);
-        m11ButSound = loadSound(Config.SOUND_11);
-        m12ButSound = loadSound(Config.SOUND_12);
-
+        sounds = Arrays.asList(
+            loadSound(Constants.SOUND_ZERO),
+            loadSound(Constants.SOUND_ONE),
+            loadSound(Constants.SOUND_TWO),
+            loadSound(Constants.SOUND_THREE),
+            loadSound(Constants.SOUND_FOUR),
+            loadSound(Constants.SOUND_FIVE),
+            loadSound(Constants.SOUND_SIX),
+            loadSound(Constants.SOUND_SEVEN),
+            loadSound(Constants.SOUND_EIGHT),
+            loadSound(Constants.SOUND_NINE),
+            loadSound(Constants.SOUND_11),
+            loadSound(Constants.SOUND_12)
+        );
     }
 
 
@@ -185,56 +191,91 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
         mSoundPool.release();
         mSoundPool = null;
+        this.sounds = null;
     }
 
+    private Queue<Message> messageQueue = new ConcurrentLinkedQueue<>();
+    boolean isFinished = false;
 
-    private void generateNumbers() {
-        Integer availableNumbersSize = availableNumbers.size();
-        while (true) {
-            int random = (int) (Math.random() * availableNumbersSize);
-            String numberInString = availableNumbers.get(random);
-            final TextView textView = new TextView(this);
-            textView.setText(numberInString);
-            numbers.add(textView);
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    gameGroundContainer.addView(textView);
-                }
-            });
-            try {
-                Thread.currentThread().sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    void pushMessage(@SuppressWarnings("SameParameterValue") int what, int arg1) {
+        Message msg = new Message();
+        msg.what = what;
+        msg.arg1 = arg1;
+        messageQueue.add(msg);
     }
 
-    private void moveNumbers() {
-        while (true) {
-            try {
-                Thread.currentThread().sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    Runnable gameMechanicRunnable = new Runnable() {
 
-            final TextView textViewElement = numbers.poll();
-            if (numbers.isEmpty()) {
-                Log.d("MYTAG", "Queue is empty.");
-            } else {
-                Log.d("MYTAG", "Queue is not empty. Value of polled element: " + textViewElement.getText());
-            }
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(textViewElement, "translationX", moveValue);
-                    animation.setDuration(4000);
-                    animation.start();
+        private void handleClickNumber(Message msg) {
+            String valueInString = availableNumbers.get(msg.arg1);
+            for (RunningNumber rn : runningNumberList) {
+                if (rn.getValueInString().equals(valueInString)) {
+                    int indexOfMas = (int) (Math.random() * availableNumbers.size());
+                    rn.setValueInString(availableNumbers.get(indexOfMas));
+                    rn.setxCoord(0.0);
+                    rn.setVelocity(rn.getVelocity() + Constants.NITRO);
+                    return;
                 }
-            });
-            numbers.add(textViewElement);
-            moveValue += 10;
+            }
         }
+
+        @SuppressLint("HandlerLeak")
+        @Override
+        public void run() {
+            int gameWidth = gameGround.getWidth();
+
+            long currentTime = System.currentTimeMillis();
+            while (!isFinished) {
+                while (!messageQueue.isEmpty()) {
+                    Message msg = messageQueue.poll();
+                    if (msg != null) {
+                        switch (msg.what) {
+                            case 0:
+                                this.handleClickNumber(msg);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                long newCurrentTime = System.currentTimeMillis();
+                for (RunningNumber rn: runningNumberList) {
+                    if (rn.getxCoord() >= gameWidth) {
+                        handler.sendEmptyMessage(0);
+                    }
+                    long dt = newCurrentTime - currentTime;
+                    rn.move(rn.getVelocity() * dt);
+                }
+                currentTime = newCurrentTime;
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+
+    Thread gameThread = new Thread(gameMechanicRunnable);
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                Log.d("MYTAG", "KUTAG");
+                handleLose();
+            }
+        }
+    };
+
+    private void handleLose() {
+        this.isFinished = true;
+        Log.d("MYTAG2", "handleLose");
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -271,69 +312,6 @@ public class GameActivity extends AppCompatActivity {
         }
         return mSoundPool.load(afd, 1);
     }
-
-
-    @OnClick(R.id.button0)
-    void onClickZero() {
-        playSound(mZeroButSound);
-    }
-
-    @OnClick(R.id.button1)
-    void onClickOne() {
-        playSound(mOneButSound);
-    }
-
-    @OnClick(R.id.button2)
-    void onClickTwo() {
-        playSound(mTwoButSound);
-    }
-
-    @OnClick(R.id.button3)
-    void onClickThree() {
-        playSound(mThreeButSound);
-    }
-
-    @OnClick(R.id.button4)
-    void onClickFour() {
-        playSound(mFourButSound);
-    }
-
-    @OnClick(R.id.button5)
-    void onClickFive() {
-        playSound(mFiveButSound);
-    }
-
-    @OnClick(R.id.button6)
-    void onClickSix() {
-        playSound(mSixButSound);
-    }
-
-    @OnClick(R.id.button7)
-    void onClickSeven() {
-        playSound(mSevenButSound);
-    }
-
-    @OnClick(R.id.button8)
-    void onClickEight() {
-        playSound(mEightButSound);
-    }
-
-    @OnClick(R.id.button9)
-    void onClickNine() {
-        playSound(mNineButSound);
-    }
-
-    @OnClick(R.id.button_hashtag)
-    void onClick11() {
-        playSound(m11ButSound);
-    }
-
-    @OnClick(R.id.button_star)
-    void onClick12() {
-        playSound(m12ButSound);
-    }
-
-
 
 }
 
