@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btn_logout)
     TextView logout;
 
+    ListenerHandler<Api.OnCheckAuthListener> checkAuthHandler;
+    ListenerHandler<Api.OnLogoutListener> checkLogoutHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +102,18 @@ public class MainActivity extends AppCompatActivity {
             UserHolder.getUserHolder().setNickname(nick);
         }
 
-        ListenerHandler<Api.OnCheckAuthListener> checkAuthHandler = Api.getInstance().checkAuth(checkAuthListener);
+        checkAuthHandler = Api.getInstance().checkAuth(checkAuthListener);
+    }
 
+    @Override
+    protected void onDestroy() {
+        if (checkAuthHandler != null) {
+            checkAuthHandler.unregister();
+        }
+        if (checkLogoutHandler != null) {
+            checkLogoutHandler.unregister();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -149,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_logout)
     void onLogoutClick() {
-        ListenerHandler<Api.OnLogoutListener> checkLogoutHandler = Api.getInstance().logout(logoutListener);
+        checkLogoutHandler = Api.getInstance().logout(logoutListener);
         UserHolder.getUserHolder().deleteCookie();
         setVisibilityUnauthorized();
     }

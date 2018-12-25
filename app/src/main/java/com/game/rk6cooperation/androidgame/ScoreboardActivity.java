@@ -156,6 +156,12 @@ public class ScoreboardActivity extends AppCompatActivity {
         userHandler = Api.getInstance().getUsersList(this.current_page, this.on_page, usersListListener);
     }
 
+    @Override
+    protected void onDestroy() {
+        userHandler.unregister();
+        super.onDestroy();
+    }
+
     private void startProgress() {
         this.toggleContent(false);
         progress.setVisibility(View.VISIBLE);

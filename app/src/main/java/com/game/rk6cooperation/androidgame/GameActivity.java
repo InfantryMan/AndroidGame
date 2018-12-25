@@ -53,6 +53,8 @@ public class GameActivity extends AppCompatActivity {
 
     };
 
+    ListenerHandler<Api.OnSaveScoreListener> checkAuthHandler;
+
     private static final List<String> availableNumbers = Arrays.asList(
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "#"
     );
@@ -170,6 +172,9 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        if (checkAuthHandler != null) {
+            checkAuthHandler.unregister();
+        }
         super.onDestroy();
     }
 
@@ -306,7 +311,7 @@ public class GameActivity extends AppCompatActivity {
         this.isFinished = true;
         Log.d("MYTAG2", "handleLose");
 
-        ListenerHandler<Api.OnSaveScoreListener> checkAuthHandler = Api.getInstance()
+        checkAuthHandler = Api.getInstance()
                 .saveScore(this.score, saveScoreListener);
         Toast.makeText(this, getResources().getString(R.string.game_over) + this.score,
                 Toast.LENGTH_LONG).show();

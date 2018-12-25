@@ -49,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.btn_submit)
     Button submitBtn;
 
+    ListenerHandler<Api.OnRegisterListener> regHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (regHandler != null) {
+            regHandler.unregister();
+        }
+        super.onDestroy();
     }
 
     @OnClick(R.id.btn_submit)
@@ -77,6 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        ListenerHandler<Api.OnRegisterListener> regHandler = Api.getInstance().register(login, password, regListener);
+        regHandler = Api.getInstance().register(login, password, regListener);
     }
 }

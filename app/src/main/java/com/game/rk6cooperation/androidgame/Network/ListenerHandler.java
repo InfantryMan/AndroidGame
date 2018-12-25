@@ -19,7 +19,7 @@ public class ListenerHandler<T> {
         return listener;
     }
 
-    void unregister() {
+    public void unregister() {
         listener = null;
     }
 }

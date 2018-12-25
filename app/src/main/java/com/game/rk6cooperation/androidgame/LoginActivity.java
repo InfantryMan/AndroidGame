@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.btn_submit)
     Button submitBtn;
 
+    ListenerHandler<Api.OnAuthorizeListener> authHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,14 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (authHandler != null) {
+            authHandler.unregister();
+        }
+        super.onDestroy();
     }
 
     @OnClick(R.id.btn_submit)
@@ -69,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        ListenerHandler<Api.OnAuthorizeListener> authHandler = Api.getInstance().authorize(login, password, authListener);
+        authHandler = Api.getInstance().authorize(login, password, authListener);
     }
 
 }
