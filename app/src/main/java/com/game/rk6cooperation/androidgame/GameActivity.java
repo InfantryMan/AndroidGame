@@ -310,6 +310,8 @@ public class GameActivity extends AppCompatActivity {
 
         ListenerHandler<Api.OnSaveScoreListener> checkAuthHandler = Api.getInstance()
                 .saveScore(this.score, saveScoreListener);
+        Toast.makeText(this, getResources().getString(R.string.game_over) + this.score,
+                Toast.LENGTH_LONG).show();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

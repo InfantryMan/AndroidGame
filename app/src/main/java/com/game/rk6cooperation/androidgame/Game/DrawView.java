@@ -1,20 +1,20 @@
 package com.game.rk6cooperation.androidgame.Game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.util.Log;
-import android.util.Pair;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.LinearLayout;
 
 import com.game.rk6cooperation.androidgame.R;
 
 import java.util.List;
 
+@SuppressLint("ViewConstructor")
 public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
 
     private DrawThread drawThread;
@@ -50,7 +50,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
             try {
                 drawThread.join();
                 retry = false;
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
     }
